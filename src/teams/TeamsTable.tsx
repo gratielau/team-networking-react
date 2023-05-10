@@ -1,6 +1,22 @@
 import "./style.css";
 
 export function TeamsTable() {
+  const teams = [
+    {
+      id: "toze8j1610313009673",
+      promotion: "html",
+      members: "Nicolae Matei, HTML",
+      name: "Web Presentation",
+      url: "https://github.com/nmatei/web-intro-presentation"
+    },
+    {
+      id: "ezabnf1630345987541",
+      promotion: "css",
+      members: "Nicolae",
+      name: "Names",
+      url: "https://github.com/nmatei/nmatei.github.io"
+    }
+  ];
   return (
     <form id="editForm" action="" method="post">
       <table id="list">
@@ -24,7 +40,37 @@ export function TeamsTable() {
             <th></th>
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+          {teams.map(({ id, url, promotion, members, name }) => {
+            let displayUrl = url;
+            if (url.startsWith("https://")) {
+              displayUrl = url.substring(8);
+            }
+            return (
+              <tr key={id}>
+                <td>
+                  <input type="checkbox" name="selected" value={id} />
+                </td>
+                <td>{promotion}</td>
+                <td>{members}</td>
+                <td>{name}</td>
+                <td>
+                  <a href={url} target="_blank">
+                    {displayUrl}
+                  </a>
+                </td>
+                <td>
+                  <a data-id={id} className="link-btn remove-btn">
+                    ✖
+                  </a>
+                  <a data-id={id} className="link-btn edit-btn">
+                    &#9998;
+                  </a>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
         <tfoot>
           <tr>
             <td></td>
