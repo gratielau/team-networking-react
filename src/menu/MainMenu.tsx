@@ -19,8 +19,8 @@ export function MainMenu() {
         </a>
       </li>
       <li>
-        <a href="#" data-page="languages">
-          Languages
+        <a href="#" data-page="teams">
+          Teams
         </a>
       </li>
     </ul>

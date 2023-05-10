@@ -81,7 +81,7 @@ textarea {
 }
 
 #main {
-  flex: 3;
+  flex: 5;
   padding: 10px 10px 10px 0;
   display: flex;
   flex-direction: column;
