@@ -1,6 +1,7 @@
 import linkedin from "./linkedin.png";
 import git from "./github.png";
 import youtube from "./youtube.png";
+import "./style.css";
 
 export function AppFooter() {
   return (
