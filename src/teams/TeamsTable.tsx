@@ -1,24 +1,8 @@
 import "./style.css";
 
-export function TeamsTable() {
-  const teams = [
-    {
-      id: "toze8j1610313009673",
-      promotion: "html",
-      members: "Nicolae Matei, HTML",
-      name: "Web Presentation",
-      url: "https://github.com/nmatei/web-intro-presentation"
-    },
-    {
-      id: "ezabnf1630345987541",
-      promotion: "css",
-      members: "Nicolae",
-      name: "Names",
-      url: "https://github.com/nmatei/nmatei.github.io"
-    }
-  ];
+export function TeamsTable(props) {
   return (
-    <form id="editForm" action="" method="post">
+    <form id="editForm" action="" method="post" className={props.loading ? "loading-mask" : ""}>
       <table id="list">
         <colgroup>
           <col span={1} style={{ width: "40px" }} />
@@ -41,7 +25,7 @@ export function TeamsTable() {
           </tr>
         </thead>
         <tbody>
-          {teams.map(({ id, url, promotion, members, name }) => {
+          {props.teams.map(({ id, url, promotion, members, name }) => {
             let displayUrl = url;
             if (url.startsWith("https://")) {
               displayUrl = url.substring(8);
@@ -95,4 +79,29 @@ export function TeamsTable() {
       </table>
     </form>
   );
+}
+
+export function TeamsTableWrapper() {
+  const teams = [
+    {
+      id: "toze8j1610313009673",
+      promotion: "html",
+      members: "Nicolae Matei, HTML",
+      name: "Web Presentation",
+      url: "https://github.com/nmatei/web-intro-presentation"
+    },
+    {
+      id: "ezabnf1630345987541",
+      promotion: "css",
+      members: "Nicolae",
+      name: "Names",
+      url: "https://github.com/nmatei/nmatei.github.io"
+    }
+  ];
+
+  // return TeamsTable({
+  //   teams: teams
+  // });
+
+  return <TeamsTable teams={teams} loading={true} />;
 }
