@@ -1,3 +1,4 @@
+import React from "react";
 import "./style.css";
 
 type Team = { id: string; name: string; promotion: string; url: string; members: string };
@@ -87,27 +88,50 @@ export function TeamsTable(props: Props) {
   );
 }
 
-export function TeamsTableWrapper() {
-  const teams = [
-    {
-      id: "toze8j1610313009673",
-      promotion: "html",
-      members: "Nicolae Matei, HTML",
-      name: "Web Presentation",
-      url: "https://github.com/nmatei/web-intro-presentation"
-    },
-    {
-      id: "ezabnf1630345987541",
-      promotion: "css",
-      members: "Nicolae",
-      name: "Names",
-      url: "https://github.com/nmatei/nmatei.github.io"
-    }
-  ];
+type WrapperProps = {};
+type State = {
+  loading: boolean;
+  teams: Team[];
+};
 
-  // return TeamsTable({
-  //   teams: teams
-  // });
+export class TeamsTableWrapper extends React.Component<WrapperProps, State> {
+  constructor(props) {
+    super(props);
+    console.info("constructor props", props);
+    this.state = {
+      loading: true,
+      teams: []
+    };
+  }
 
-  return <TeamsTable teams={teams} loading={true} />;
+  componentDidMount(): void {
+    setTimeout(() => {
+      console.info("change loading");
+      //this.state.loading = false; // nu functioneaza pt ca este read-only
+      this.setState({
+        loading: false,
+        teams: [
+          {
+            id: "toze8j1610313009673",
+            promotion: "html",
+            members: "Nicolae Matei, HTML",
+            name: "Web Presentation",
+            url: "https://github.com/nmatei/web-intro-presentation"
+          },
+          {
+            id: "ezabnf1630345987541",
+            promotion: "css",
+            members: "Nicolae",
+            name: "Names",
+            url: "https://github.com/nmatei/nmatei.github.io"
+          }
+        ]
+      });
+    }, 2000);
+  }
+
+  render() {
+    console.info("render");
+    return <TeamsTable teams={this.state.teams} loading={this.state.loading} />;
+  }
 }
