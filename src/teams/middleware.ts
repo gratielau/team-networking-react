@@ -19,7 +19,7 @@ export function createTeamsRequest(team) {
   }).then(r => r.json());
 }
 
-export function deleteTeamRequest(id, callback) {
+export function deleteTeamRequest(id, callback?) {
   console.info(arguments[1]);
   return fetch("http://localhost:3000/teams-json/delete", {
     method: "DELETE",

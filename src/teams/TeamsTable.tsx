@@ -1,6 +1,6 @@
 import React from "react";
 import "./style.css";
-import { getTeamsRequest } from "./middleware";
+import { deleteTeamRequest, getTeamsRequest } from "./middleware";
 
 type Team = { id: string; name: string; promotion: string; url: string; members: string };
 type Props = {
@@ -8,7 +8,12 @@ type Props = {
   teams: Team[];
 };
 
-export function TeamsTable(props: Props) {
+type Actions = {
+  //deleteTeam: (id: string) => void;
+  deleteTeam(id: string): void;
+};
+
+export function TeamsTable(props: Props & Actions) {
   // if (props.loading && props.teams.length == 0) {
   //   return (
   //     <div style={{ minHeight: "100px" }} className="loading-mask">
@@ -59,12 +64,15 @@ export function TeamsTable(props: Props) {
                   </a>
                 </td>
                 <td>
-                  <a data-id={id} className="link-btn remove-btn">
+                  <a
+                    className="link-btn"
+                    onClick={() => {
+                      props.deleteTeam(id);
+                    }}
+                  >
                     ✖
                   </a>
-                  <a data-id={id} className="link-btn edit-btn">
-                    &#9998;
-                  </a>
+                  <a className="link-btn">&#9998;</a>
                 </td>
               </tr>
             );
@@ -105,16 +113,18 @@ type State = {
 export class TeamsTableWrapper extends React.Component<WrapperProps, State> {
   constructor(props: WrapperProps) {
     super(props);
-    console.info("constructor props", props);
     this.state = {
       loading: true,
       teams: []
     };
   }
 
-  async componentDidMount(): Promise<void> {
-    const teams = await getTeamsRequest();
+  componentDidMount(): void {
+    this.loadTeams();
+  }
 
+  async loadTeams() {
+    const teams = await getTeamsRequest();
     this.setState({
       loading: false,
       teams: teams
@@ -123,6 +133,17 @@ export class TeamsTableWrapper extends React.Component<WrapperProps, State> {
 
   render() {
     console.info("render");
-    return <TeamsTable teams={this.state.teams} loading={this.state.loading} />;
+    return (
+      <TeamsTable
+        teams={this.state.teams}
+        loading={this.state.loading}
+        deleteTeam={async id => {
+          console.info("sterge echipa", id);
+          const status = await deleteTeamRequest(id);
+          console.info("status", status);
+          this.loadTeams();
+        }}
+      />
+    );
   }
 }
