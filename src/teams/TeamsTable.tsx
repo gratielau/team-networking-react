@@ -200,15 +200,12 @@ export class TeamsTableWrapper extends React.Component<WrapperProps, State> {
           this.loadTeams();
         }}
         inputChange={(name: string, value: string) => {
-          this.setState(state => {
-            const team = {
-              ...state.team
-            };
-            team[name] = value;
-            return {
-              team
-            };
-          });
+          this.setState(state => ({
+            team: {
+              ...state.team,
+              [name]: value
+            }
+          }));
         }}
       />
     );
