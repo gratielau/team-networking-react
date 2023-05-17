@@ -226,6 +226,9 @@ export class TeamsTableWrapper extends React.Component<WrapperProps, State> {
           this.loadTeams();
         }}
         save={async () => {
+          this.setState({
+            loading: true
+          });
           const team = this.state.team;
           let status;
           if (team.id) {
@@ -234,7 +237,7 @@ export class TeamsTableWrapper extends React.Component<WrapperProps, State> {
             status = await createTeamsRequest(team);
           }
           this.loadTeams();
-          this.setState({ team: getEmptyTeam() });
+          this.setState({ team: getEmptyTeam(), loading: false });
         }}
         reset={() => {
           this.setState({ team: getEmptyTeam() });
