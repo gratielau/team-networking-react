@@ -1,6 +1,6 @@
 import React from "react";
 import "./style.css";
-import { deleteTeamRequest, getTeamsRequest } from "./middleware";
+import { deleteTeamRequest, getTeamsRequest, createTeamsRequest } from "./middleware";
 
 type Team = { id: string; name: string; promotion: string; url: string; members: string };
 type Props = {
@@ -113,7 +113,7 @@ export function TeamsTable(props: Props & Actions) {
                 required
                 value={props.team.members}
                 onChange={e => {
-                  console.info("changed", e.target.value);
+                  props.inputChange("members", e.target.value);
                 }}
               />
             </td>
@@ -125,7 +125,7 @@ export function TeamsTable(props: Props & Actions) {
                 required
                 value={props.team.name}
                 onChange={e => {
-                  console.info("changed", e.target.value);
+                  props.inputChange("name", e.target.value);
                 }}
               />
             </td>
@@ -137,7 +137,7 @@ export function TeamsTable(props: Props & Actions) {
                 required
                 value={props.team.url}
                 onChange={e => {
-                  console.info("changed", e.target.value);
+                  props.inputChange("url", e.target.value);
                 }}
               />
             </td>
@@ -194,17 +194,19 @@ export class TeamsTableWrapper extends React.Component<WrapperProps, State> {
           //console.info("status", status);
           this.loadTeams();
         }}
-        save={() => {
-          const team = {};
-          console.warn("do save", team);
+        save={async () => {
+          const team = this.state.team;
+          const status = await createTeamsRequest(team);
+          this.loadTeams();
         }}
         inputChange={(name: string, value: string) => {
           this.setState(state => {
+            const team = {
+              ...state.team
+            };
+            team[name] = value;
             return {
-              team: {
-                ...state.team,
-                promotion: value
-              }
+              team
             };
           });
         }}
