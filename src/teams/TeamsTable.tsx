@@ -253,10 +253,23 @@ export class TeamsTableWrapper extends React.Component<WrapperProps, State> {
     let status;
     if (team.id) {
       status = await updateTeamRequest(team);
+      this.setState(state => {
+        const teams = state.teams.map(t => {
+          if (t.id == team.id) {
+            return { ...team };
+          }
+          return t;
+        });
+        return { teams };
+      });
     } else {
-      status = await createTeamsRequest(team);
+      const { id } = await createTeamsRequest(team);
+      this.setState(state => {
+        const teams = [...state.teams, { ...team, id }];
+        return { teams };
+      });
     }
-    this.loadTeams();
+    //this.loadTeams();
     this.setState({ team: getEmptyTeam() });
   }
 
