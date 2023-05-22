@@ -206,6 +206,8 @@ export class TeamsTableWrapper extends React.Component<WrapperProps, State> {
     this.save = this.save.bind(this);
     this.deleteTeam = this.deleteTeam.bind(this);
     this.inputChange = this.inputChange.bind(this);
+    this.startEdit = this.startEdit.bind(this);
+    this.reset = this.reset.bind(this);
   }
 
   componentDidMount(): void {
@@ -258,6 +260,14 @@ export class TeamsTableWrapper extends React.Component<WrapperProps, State> {
     this.setState({ team: getEmptyTeam() });
   }
 
+  private startEdit(team: Team) {
+    this.setState({ team });
+  }
+
+  private reset() {
+    this.setState({ team: getEmptyTeam() });
+  }
+
   render() {
     console.info("render");
     return (
@@ -267,12 +277,8 @@ export class TeamsTableWrapper extends React.Component<WrapperProps, State> {
         team={this.state.team}
         deleteTeam={this.deleteTeam}
         save={this.save}
-        reset={() => {
-          this.setState({ team: getEmptyTeam() });
-        }}
-        startEdit={team => {
-          this.setState({ team });
-        }}
+        reset={this.reset}
+        startEdit={this.startEdit}
         inputChange={this.inputChange}
       />
     );
